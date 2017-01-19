@@ -1,0 +1,1 @@
+Follow along at: [https://maptimela.github.io/python-bs4-qgis](https://maptimela.github.io/python-bs4-qgis)
