@@ -85,6 +85,10 @@
 		.slide p.title{
 			font-size: 60px;
 			line-height: 60px;
+		}
+		.slide p.small{
+			font-size: 40px;
+			line-height: 40px;
 		}		
 		a{
 			color: #2859cc;
@@ -160,6 +164,83 @@
 	<p><a target="_blank" href="http://docs.python-requests.org/en/master/">Requests</a> is a library for extracting data from html and xml.<br>
 	<br></p>
 	<img src="images/requests.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Let's write some Python to get the gages from this <a target="_blank" href="http://www.ladpw.org/wrd/precip/alertlist.cfm">LA County page</a> as a csv.<br>
+	<br></p>
+	<img src="images/gage_site.png"/>
+</div>
+<div class="slide image_bottom">
+	<p>But first, inspect the page to learn more about the structure of the data we want.<br>
+	<br></p>
+	<img src="images/gage_html.png"/>
+</div>
+<div class="slide">
+	<p class="small">We start by importing the libraries we need:<br>
+	&#8194 from bs4 import BeautifulSoup<br>
+	&#8194 import csv</p>
+</div>
+<div class="slide">
+	<p class="small">Then we fetch the site using requests:<br>
+	&#8194 url = "http://www.ladpw.org/wrd/precip/alertlist.cfm"<br>
+	&#8194 response = requests.get(url)<br>
+	&#8194 code = response.content</p>
+</div>
+<div class="slide">
+	<p class="small">Time to make soup:<br>
+	&#8194 soup = BeautifulSoup(code, "html.parser")<br>
+	&#8194 table = soup.find('table', <br>
+	&#8194 &#8194 attrs={"summary" : "Table<br>
+	&#8194 &#8194 contains ALERT raingage list"})</p>
+</div>
+<div class="slide">
+	<p class="small">Parse the table together:<br></p>
+	<img src="images/python_gages.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Time for QGIS!<br><br>
+	<a target="_blank" href="http://www.qgis.org/en/site/">QGIS</a> is a free geographic information system software for making maps and analyzing spatial data.<br>
+	<br></p>
+	<img src="images/qgis_logo.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>The longitude is missing the negative sign. We will add it in QGIS:
+	<br></p>
+	<img src="images/concat.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Now we can add the table as points.
+	<br></p>
+	<img src="images/addxy.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Turn on the basemap using OpenLayers and save as a shapefile.
+	<br></p>
+	<img src="images/gages_map.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Now let's write some Python to get the rainfall from <a target="_blank" href="http://www.ladpw.org/wrd/precip/alert_rain/season_raindata.cfm?id=384">individual gages</a> as a csv.<br>
+	<br></p>
+	<img src="images/rain_page.png"/>
+</div>
+<div class="slide image_bottom">
+	<p>But first, inspect the page to learn more about the structure of the data we want.<br>
+	<br></p>
+	<img src="images/rain_html.png"/>
+</div>
+<div class="slide">
+	<p class="small">Python for individual gage:<br></p>
+	<img src="images/python_rain.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Now we are going to use relations in QGIS to relate the rain to our gage points:
+	<br></p>
+	<img src="images/relations.png"/> 
+</div>
+<div class="slide image_bottom">
+	<p>Now what can you do? As an example we could sum and color the gage by rainfall:
+	<br></p>
+	<img src="images/sum.png"/> 
 </div>
 <script>
 	// The following is mostly derived from https://github.com/tmcw/big
