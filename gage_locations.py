@@ -7,6 +7,8 @@ response = requests.get(url)
 code = response.content
 
 soup = BeautifulSoup(code, "html.parser")
+# the following searches html for the table tag for an html table, then
+# searches for words in that table's header
 table = soup.find('table', attrs={"summary" : "Table contains ALERT raingage list"})
 
 headers = [header.text for header in table.find_all('th')]
